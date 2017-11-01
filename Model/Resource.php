@@ -1,14 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vijeinath
- * Date: 31.10.17
- * Time: 09:06
- */
 
 declare(strict_types = 1);
 
-class Resource {
+namespace ArchivesOnlineSGV;
+
+class Model_Resource {
     private $id;
     private $title;
     public $dateValues;
@@ -29,7 +25,7 @@ class Resource {
         }
     }
 
-    public function __construct(string $id, string $title, stdClass $dateValues) {
+    public function __construct(string $id, string $title, \stdClass $dateValues) {
         $this->id = $id;
         $this->title = $title;
         $this->dateValues = $dateValues;
