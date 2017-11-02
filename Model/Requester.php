@@ -20,7 +20,7 @@ class Model_Requester {
         foreach ($subjects as $key => $value) {
 
             $id = $value->obj_id;
-            $title = "[no title]";
+            $title = "NONE";
             $date = null;
 
             $res_str = file_get_contents($this->urlBuilder->resourceURL($id));

@@ -9,7 +9,7 @@ class Model_URLBuilder {
     private const RESOURCES_PREFIX = "http://www.salsah.org/api/resources/";
 
     private const FULLTEXT_01 = "?searchtype=fulltext&filter_by_project=SGV&show_nrows=";
-    private const FULLTEXT_02 = "&start_at=0";
+    private const FULLTEXT_02 = "&start_at=0&filter_by_restype=65";
 
     private const EXTENDED_01 = "?searchtype=extended&property_id[]=46&property_id[]=1&compop[]=EQ&compop[]=MATCH&searchval[]=GREGORIAN:";
     private const EXTENDED_02 = "&searchval[]=";

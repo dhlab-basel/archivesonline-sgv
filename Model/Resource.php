@@ -7,7 +7,7 @@ namespace ArchivesOnlineSGV;
 class Model_Resource {
     private $id;
     private $title;
-    public $dateValues;
+    private $dateValues;
     private $date1;
     private $date2;
 
@@ -25,7 +25,7 @@ class Model_Resource {
         }
     }
 
-    public function __construct(string $id, string $title, \stdClass $dateValues) {
+    public function __construct(string $id, string $title, ?\stdClass $dateValues) {
         $this->id = $id;
         $this->title = $title;
         $this->dateValues = $dateValues;
@@ -33,8 +33,8 @@ class Model_Resource {
             $this->date1 = self::convertDate((int)$dateValues->dateval1, $dateValues->dateprecision1);
             $this->date2 = self::convertDate((int)$dateValues->dateval2, $dateValues->dateprecision2);
         } else {
-            $this->date1 = "NONE";
-            $this->date2 = "NONE";
+            $this->date1 = "Undatiert";
+            $this->date2 = "Undatiert";
         }
     }
 
@@ -47,7 +47,7 @@ class Model_Resource {
     }
 
     public function getDate(): string {
-        return "ConvertedDate 1: " . $this->date1 . " | ConvertedDate 2: " . $this->date2;
+        return ($this->date1 === $this->date2) ? $this->date1: $this->date1 . "- " . $this->date2;
     }
 
 }

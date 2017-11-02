@@ -37,54 +37,61 @@ class Model_XMLBuilder {
         $el_records = $xml->createElement("records");
         $el_seReRe->appendChild($el_records);
 
+        $i = 1;
+
         foreach($resources as $key =>$value) {
             /* @var $value Model_Resource */
+            $hasTitleAndDate = !($value->getTitle()==="NONE");
 
-            $el_record = $xml->createElement("record");
-            $el_records->appendChild($el_record);
+            if ($hasTitleAndDate) {
+                $el_record = $xml->createElement("record");
+                $el_records->appendChild($el_record);
 
-            $el_reSchema = $xml->createElement("recordSchema", self::SCHEMA);
-            $el_record->appendChild($el_reSchema);
+                $el_reSchema = $xml->createElement("recordSchema", self::SCHEMA);
+                $el_record->appendChild($el_reSchema);
 
-            $el_rePacking = $xml->createElement("recordPacking", self::PACKING);
-            $el_record->appendChild($el_rePacking);
+                $el_rePacking = $xml->createElement("recordPacking", self::PACKING);
+                $el_record->appendChild($el_rePacking);
 
-            $el_reData = $xml->createElement("recordData");
-            $el_record->appendChild($el_reData);
+                $el_reData = $xml->createElement("recordData");
+                $el_record->appendChild($el_reData);
 
-            $el_archivalDes = $xml->createElement(self::SCHEMA . ":archivaldescription");
-            $el_reData->appendChild($el_archivalDes);
+                $el_archivalDes = $xml->createElement(self::SCHEMA . ":archivaldescription");
+                $el_reData->appendChild($el_archivalDes);
 
-            $el_identity = $xml->createElement(self::SCHEMA . ":identity");
-            $el_archivalDes->appendChild($el_identity);
+                $el_identity = $xml->createElement(self::SCHEMA . ":identity", $value->getID()); //<--- Delete this value just for debugging
+                $el_archivalDes->appendChild($el_identity);
 
-            $el_reference = $xml->createElement(self::SCHEMA . ":reference");
-            $el_identity->appendChild($el_reference);
+                $el_reference = $xml->createElement(self::SCHEMA . ":reference");
+                $el_identity->appendChild($el_reference);
 
-            $el_title = $xml->createElement(self::SCHEMA . ":title");
-            $el_title->appendChild($xml->createTextNode($value->getTitle()));
-            $el_identity->appendChild($el_title);
+                $el_title = $xml->createElement(self::SCHEMA . ":title");
+                $el_title->appendChild($xml->createTextNode($value->getTitle()));
+                $el_identity->appendChild($el_title);
 
-            $el_date = $xml->createElement(self::SCHEMA . ":date");
-            $el_identity->appendChild($el_date);
+                $el_date = $xml->createElement(self::SCHEMA . ":date", $value->getDate());
+                $el_identity->appendChild($el_date);
 
-            $el_desLevel = $xml->createElement(self::SCHEMA . ":descriptionlevel");
-            $el_identity->appendChild($el_desLevel);
+                $el_desLevel = $xml->createElement(self::SCHEMA . ":descriptionlevel");
+                $el_identity->appendChild($el_desLevel);
 
-            $el_extent = $xml->createElement(self::SCHEMA . ":extent");
-            $el_identity->appendChild($el_extent);
+                $el_extent = $xml->createElement(self::SCHEMA . ":extent");
+                $el_identity->appendChild($el_extent);
 
-            $el_context = $xml->createElement(self::SCHEMA . ":context");
-            $el_archivalDes->appendChild($el_context);
+                $el_context = $xml->createElement(self::SCHEMA . ":context");
+                $el_archivalDes->appendChild($el_context);
 
-            $el_creator = $xml->createElement(self::SCHEMA . ":creator");
-            $el_context->appendChild($el_creator);
+                $el_creator = $xml->createElement(self::SCHEMA . ":creator");
+                $el_context->appendChild($el_creator);
 
-            $el_rePosition = $xml->createElement("recordPosition", strval($key + 1));
-            $el_record->appendChild($el_rePosition);
+                $el_rePosition = $xml->createElement("recordPosition", strval($i));
+                $el_record->appendChild($el_rePosition);
 
-            $el_exReData = $xml->createElement("extraRecordData");
-            $el_record->appendChild($el_exReData);
+                $el_exReData = $xml->createElement("extraRecordData");
+                $el_record->appendChild($el_exReData);
+
+                $i++;
+            }
         }
 
         /*

@@ -7,6 +7,6 @@ namespace ArchivesOnlineSGV;
 class Config {
 
     const MIN_SEARCH_RESULTS = 1;
-    const MAX_SEARCH_RESULTS = 10;
+    const MAX_SEARCH_RESULTS = 50;
 
 }
