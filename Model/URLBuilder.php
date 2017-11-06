@@ -4,27 +4,37 @@ declare(strict_types = 1);
 
 namespace ArchivesOnlineSGV;
 
+/**
+ * Class Model_URLBuilder This class build the URL for the extended search request to the salsah API.
+ * @package ArchivesOnlineSGV
+ */
 class Model_URLBuilder {
-    private const SEARCH_PREFIX = "http://www.salsah.org/api/search/";
-    private const RESOURCES_PREFIX = "http://www.salsah.org/api/resources/";
 
-    private const FULLTEXT_01 = "?searchtype=fulltext&filter_by_project=SGV&show_nrows=";
-    private const FULLTEXT_02 = "&start_at=0&filter_by_restype=65";
+    /**
+     * @var string First part of the extended search request.
+     */
+    private const URL_PART_01 = "http://www.salsah.org/api/search/?searchtype=extended&property_id[]=1&property_id[]=46&property_id[]=1&compop[]=MATCH&compop[]=EQ&compop[]=EXISTS&searchval[]=";
+    /**
+     * @var string Second part of the extended search request.
+     */
+    private const URL_PART_02 = "&searchval[]=GREGORIAN:";
+    /**
+     * @var string Third part of the extended search request.
+     */
+    private const URL_PART_03 = "&searchval[]=&show_nrows=";
+    /**
+     * @var string Fourth part of the extended search request.
+     */
+    private const URL_PART_04 = "&start_at=0&filter_by_restype=65";
 
-    private const EXTENDED_01 = "?searchtype=extended&property_id[]=46&property_id[]=1&compop[]=EQ&compop[]=MATCH&searchval[]=GREGORIAN:";
-    private const EXTENDED_02 = "&searchval[]=";
-    private const EXTENDED_03 = "&show_nrows=";
-    private const EXTENDED_04 = "&start_at=0&filter_by_restype=65";
-
-    public function fulltextURL(string $word, int $number):string {
-        return self::SEARCH_PREFIX . \urlencode($word) . self::FULLTEXT_01 . $number .self::FULLTEXT_02;
-    }
-
-    public function extendedURL(string $word, int $number, Model_Period $period):string {
-        return self::SEARCH_PREFIX . self::EXTENDED_01 . $period->getFromYear() .":". $period->getToYear() . self::EXTENDED_02 . \urlencode($word) . self::EXTENDED_03 . $number . self::EXTENDED_04;
-    }
-
-    public function resourceURL($id):string {
-        return self::RESOURCES_PREFIX . $id;
-    }
+    /**
+     * Builds the URL for the request to the salsah API. The search is a extended search which will send the search word, period and the numbers of results.
+     * @param string $word The search word
+     * @param int $number The number of results which will be returned by salsah API.
+     * @param Model_Period $period The time period where the results fit in.
+     * @return string Contains the URL with all the information needed to start the request.
+     */
+        public function extendedURL(string $word, int $number, Model_Period $period):string {
+            return static::URL_PART_01 . \urlencode($word) . static::URL_PART_02 . $period->getFromYear() . ":" . $period->getToYear() . static::URL_PART_03 . $number . static::URL_PART_04;
+        }
 }

@@ -4,6 +4,10 @@ declare(strict_types = 1);
 
 namespace ArchivesOnlineSGV;
 
+/**
+ * Class Model_Period This class represents a period time.
+ * @package ArchivesOnlineSGV
+ */
 class Model_Period {
 
     /**
@@ -24,13 +28,6 @@ class Model_Period {
     }
 
     /**
-     * @param int $fromYear
-     */
-    private function setFromYear(int $fromYear) {
-        $this->fromYear = $fromYear;
-    }
-
-    /**
      * @return int
      */
     public function getToYear(): int {
@@ -38,21 +35,18 @@ class Model_Period {
     }
 
     /**
+     * Model_Period constructor.
+     * @param int $fromYear
      * @param int $toYear
      */
-    private function setToYear(int $toYear) {
-        $this->toYear = $toYear;
-    }
-
     public function __construct(int $fromYear, int $toYear) {
         $this->fromYear = $fromYear;
         $this->toYear = $toYear;
     }
 
-    public function isSameYear(): bool {
-        return $this->fromYear === $this->toYear;
-    }
-
+    /**
+     * @return string
+     */
     public function __toString() {
         return "Period: ". $this->fromYear. "- ". $this->toYear;
     }

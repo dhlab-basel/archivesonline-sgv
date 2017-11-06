@@ -87,12 +87,12 @@ class Model_RequestParams {
 
         switch (\count($queryArray)) {
             case 1:
-                $requestParams->setSearch(self::getFirstStringInQuotes($queryArray[0]));
+                $requestParams->setSearch(static::getFirstStringInQuotes($queryArray[0]));
                 $requestParams->setPeriod(null);
                 break;
             case 2:
-                $requestParams->setSearch(self::getFirstStringInQuotes($queryArray[0]));
-                $years = \explode(" ", self::getFirstStringInQuotes($queryArray[1]));
+                $requestParams->setSearch(static::getFirstStringInQuotes($queryArray[0]));
+                $years = \explode(" ", static::getFirstStringInQuotes($queryArray[1]));
                 if (\is_array($years) === false || \count($years) === 0) {
                     $requestParams->setPeriod(null);
                 } else {
