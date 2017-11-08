@@ -4,8 +4,15 @@ declare(strict_types = 1);
 
 namespace ArchivesOnlineSGV;
 
+/**
+ * Class Controller_Api
+ * @package ArchivesOnlineSGV
+ */
 class Controller_Api {
 
+    /**
+     * Controller_Api constructor.
+     */
     function __construct() {
 
         \header("Content-type: text/xml");
@@ -19,12 +26,13 @@ class Controller_Api {
             default:
                 $this->notImplemented();
                 break;
-
         }
-
     }
 
-    function sgv() {
+    /**
+     * Checks the query and instantiates all the necessary classes, initiates the salsag request and delegates the creation of the XML
+     */
+    function sgv():void {
 
         $query = isset($_GET["query"]) ? $_GET["query"] : "";
         $maxRecords = isset($_GET["maximumRecords"]) ? \intval($_GET["maximumRecords"]) : Config::MAX_SEARCH_RESULTS;
@@ -35,14 +43,15 @@ class Controller_Api {
         $requester = new Model_Requester($urlBuilder, $requestParams->getMaxRecords());
         $xmlBuilder = new Model_XMLBuilder($requestParams->getMaxRecords());
 
-
         $results = $requester->httpGet($requestParams->getSearch(), $requestParams->getPeriod());
 
         echo $xmlBuilder->createXML($results);
-
     }
 
-    function notImplemented() {
+    /**
+     * Will be shown in case the URL is not implemented
+     */
+    function notImplemented():void  {
         echo "<xml><error>Not implemented exception</error></xml>";
     }
 

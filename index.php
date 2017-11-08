@@ -4,10 +4,14 @@ declare(strict_types = 1);
 
 namespace ArchivesOnlineSGV;
 
-// Config
-
 // Autoload
-spl_autoload_register(function (string $class) {
+spl_autoload_register(
+    /**
+     * Includes the class files at every new keyword
+    * @param string $class
+    * @throws \Exception
+    */
+    function (string $class) {
     $namespace = __NAMESPACE__ . "\\";
     if (\strpos($class, $namespace) === 0) {
         include \str_replace(["_", $namespace], [DIRECTORY_SEPARATOR, ""], $class) . ".php";
@@ -16,10 +20,13 @@ spl_autoload_register(function (string $class) {
     }
 });
 
-// Main
-main();
+/**
+ * This is the entry function where the application starts.
+ */
 function main() {
     new Controller_Api();
 }
+
+main();
 
 ?>

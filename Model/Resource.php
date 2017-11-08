@@ -37,14 +37,14 @@ class Model_Resource {
      * @return string
      */
     private static function convertDate(int $date, string $precision): string {
-        $date_parts = explode("/" ,jdtogregorian($date));
+        $date_parts = \explode("/" , \jdtogregorian($date));
         switch ($precision) {
             case "DAY":
-                return strval($date_parts[1] . "." . strval($date_parts[0]) . "." . strval($date_parts[2]));
+                return \strval($date_parts[1] . "." . \strval($date_parts[0]) . "." . \strval($date_parts[2]));
             case "MONTH":
-                return strval($date_parts[1]) . "." .strval($date_parts[0]);
+                return \strval($date_parts[1]) . "." . \strval($date_parts[0]);
             case "YEAR":
-                return strval($date_parts[2]);
+                return \strval($date_parts[2]);
             default:
                 return "NONE";
         }

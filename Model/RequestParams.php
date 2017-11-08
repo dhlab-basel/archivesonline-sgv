@@ -107,9 +107,7 @@ class Model_RequestParams {
         }
 
         $requestParams->setMaxRecords($maxRecords);
-
         return $requestParams;
-
     }
 
     /**

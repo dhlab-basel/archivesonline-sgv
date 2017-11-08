@@ -40,16 +40,16 @@ class Model_Requester {
             $title = "NONE";
             $dates = null;
 
-            if (property_exists($value, "value")) {
+            if (\property_exists($value, "value")) {
                 $id = $value->obj_id;
-                if (is_array($value->value)) {
+                if (\is_array($value->value)) {
                     $title = $value->value["1"];
                     $dates = $value->value["2"];
                 }
             };
 
             $resource = new Model_Resource($id, $title, $dates);
-            array_push($resources, $resource);
+            \array_push($resources, $resource);
         }
         return $resources;
     }

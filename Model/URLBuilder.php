@@ -34,7 +34,7 @@ class Model_URLBuilder {
      * @param Model_Period $period The time period where the results fit in.
      * @return string Contains the URL with all the information needed to start the request.
      */
-        public function extendedURL(string $word, int $number, Model_Period $period):string {
-            return static::URL_PART_01 . \urlencode($word) . static::URL_PART_02 . $period->getFromYear() . ":" . $period->getToYear() . static::URL_PART_03 . $number . static::URL_PART_04;
-        }
+    public function extendedURL(string $word, int $number, Model_Period $period):string {
+        return static::URL_PART_01 . \urlencode($word) . static::URL_PART_02 . $period->getFromYear() . ":" . $period->getToYear() . static::URL_PART_03 . $number . static::URL_PART_04;
+    }
 }

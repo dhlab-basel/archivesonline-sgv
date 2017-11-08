@@ -22,10 +22,6 @@ class Model_XMLBuilder {
      */
     private const PACKING = "xml";
 
-    private const FILE_NAME = "output.xml";
-
-    private const ERROR_MESSAGE = "Error, unable to create a xml file!";
-
     /**
      * @var int The maximum result
      */
@@ -56,10 +52,10 @@ class Model_XMLBuilder {
         $el_seReRe->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:" . self::SCHEMA, "http://www.expertisecentrumdavid.be/xmlschemas/isad.xsd");
         $el_seReRe->setAttributeNS("http://www.w3.org/2001/XMLSchema-instance", "schemaLocation", "http://www.loc.gov/zing/srw/ http://www.loc.gov/standards/sru/sru1-1archive/xml-files/srw-types.xsd");
 
-        $el_sruVersion = $xml->createElement("version", strval(self::VERSION));
+        $el_sruVersion = $xml->createElement("version", \strval(self::VERSION));
         $el_seReRe->appendChild($el_sruVersion);
 
-        $el_recordsNumber = $xml->createElement("numberOfRecords", strval(count($resources)));
+        $el_recordsNumber = $xml->createElement("numberOfRecords", \strval(count($resources)));
         $el_seReRe->appendChild($el_recordsNumber);
 
         $el_records = $xml->createElement("records");
@@ -106,23 +102,38 @@ class Model_XMLBuilder {
             $el_creator = $xml->createElement(self::SCHEMA . ":creator");
             $el_context->appendChild($el_creator);
 
-            $el_rePosition = $xml->createElement("recordPosition", strval($key + 1));
+            $el_rePosition = $xml->createElement("recordPosition", \strval($key + 1));
             $el_record->appendChild($el_rePosition);
 
             $el_exReData = $xml->createElement("extraRecordData");
+            $el_exReData->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:rel", "info:srw/extension/2/relevancy-1.0");
+            $el_exReData->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
             $el_record->appendChild($el_exReData);
-        }
 
-        /*
-        if (count($resources) - $this->getRecordAmount() != 0) {
-            $el_nextRePo = $xml->createElement("nextRecordPosition", strval(count($resources) + 1));
-            $el_seReRe->appendChild($el_nextRePo);
+            $el_score = $xml->createElement("rel:score");
+            $el_exReData->appendChild($el_score);
+
+            $el_link = $xml->createElement("ap:link");
+            $el_exReData->appendChild($el_link);
+
+            $el_beginDate = $xml->createElement("ap:beginDateISO");
+            $el_exReData->appendChild($el_beginDate);
+
+            $el_beginApp = $xml->createElement("ap:beginApprox");
+            $el_exReData->appendChild($el_beginApp);
+
+            $el_endDate = $xml->createElement("ap:endDateISO");
+            $el_exReData->appendChild($el_endDate);
+
+            $el_endApp = $xml->createElement("ap:endApprox");
+            $el_exReData->appendChild($el_endApp);
+
+            $el_digItem = $xml->createElement("ap:hasDigitizedItems");
+            $el_exReData->appendChild($el_digItem);
         }
-        */
 
         $xml->formatOutput = true;
-        //echo $xml->saveXML();
-        //$xml->save(self::FILE_NAME) or die(self::ERROR_MESSAGE);
         return $xml->saveXML();
     }
+    
 }
