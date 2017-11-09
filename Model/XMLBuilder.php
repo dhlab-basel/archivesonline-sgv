@@ -111,29 +111,22 @@ class Model_XMLBuilder {
             $el_record->appendChild($el_exReData);
 
             $el_score = $xml->createElement("rel:score");
-            $el_exReData->appendChild($el_score);
-
             $el_link = $xml->createElement("ap:link");
-            $el_exReData->appendChild($el_link);
-
-            $el_beginDate = $xml->createElement("ap:beginDateISO");
-            $el_exReData->appendChild($el_beginDate);
-
-            $el_beginApp = $xml->createElement("ap:beginApprox");
-            $el_exReData->appendChild($el_beginApp);
-
-            $el_endDate = $xml->createElement("ap:endDateISO");
-            $el_exReData->appendChild($el_endDate);
-
-            $el_endApp = $xml->createElement("ap:endApprox");
-            $el_exReData->appendChild($el_endApp);
-
+            $el_beginDate = $xml->createElement("ap:beginDateISO", $value->getDate1Full());
+            $el_beginApp = $xml->createElement("ap:beginApprox", "0");
+            $el_endDate = $xml->createElement("ap:endDateISO", $value->getDate2Full());
+            $el_endApp = $xml->createElement("ap:endApprox", "0");
             $el_digItem = $xml->createElement("ap:hasDigitizedItems");
-            $el_exReData->appendChild($el_digItem);
+
+            $children = array($el_score, $el_link, $el_beginDate, $el_beginApp, $el_endDate, $el_endApp, $el_digItem);
+
+            foreach ($children as $k => $v) {
+                $el_exReData->appendChild($v);
+            }
         }
 
         $xml->formatOutput = true;
         return $xml->saveXML();
     }
-    
+
 }
