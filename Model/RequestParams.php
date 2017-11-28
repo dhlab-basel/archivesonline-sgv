@@ -11,9 +11,9 @@ namespace ArchivesOnlineSGV;
 class Model_RequestParams {
 
     /**
-     * @var string
+     * @var array
      */
-    private $search;
+    private $searchWords;
 
     /**
      * @var Model_Period|null
@@ -26,17 +26,36 @@ class Model_RequestParams {
     private $maxRecords;
 
     /**
-     * @return string
+     * @var bool
      */
-    public function getSearch(): string {
-        return $this->search;
+    private $isAND;
+
+    /**
+     * @return bool
+     */
+    public function isAND(): bool {
+        return $this->isAND;
     }
 
     /**
-     * @param string $search
+     * @param bool $isAND
      */
-    public function setSearch(string $search) {
-        $this->search = $search;
+    public function setIsAND(bool $isAND) {
+        $this->isAND = $isAND;
+    }
+
+    /**
+     * @return array searchWords
+     */
+    public function getSearch(): array {
+        return $this->searchWords;
+    }
+
+    /**
+     * @param array $searchWords
+     */
+    public function setSearch(array $searchWords) {
+        $this->searchWords = $searchWords;
     }
 
     /**
@@ -77,21 +96,22 @@ class Model_RequestParams {
      * @param string $query
      * @param int $maxRecords
      * @return Model_RequestParams
-     * @throws
+     * @throws \Exception in case the query is invalid.
      */
     public static function fromArchivesOnlineRequest(string $query, int $maxRecords): Model_RequestParams {
-
         $requestParams = new Model_RequestParams();
 
         $queryArray = \explode("AND", $query);
 
         switch (\count($queryArray)) {
             case 1:
-                $requestParams->setSearch(static::getFirstStringInQuotes($queryArray[0]));
+                $requestParams->setSearch(static::getStringArrayInQuotes($queryArray[0]));
+                $requestParams->setIsAND(static::getConjunctionInfo($queryArray[0]));
                 $requestParams->setPeriod(null);
                 break;
             case 2:
-                $requestParams->setSearch(static::getFirstStringInQuotes($queryArray[0]));
+                $requestParams->setSearch(static::getStringArrayInQuotes($queryArray[0]));
+                $requestParams->setIsAND(static::getConjunctionInfo($queryArray[0]));
                 $years = \explode(" ", static::getFirstStringInQuotes($queryArray[1]));
                 if (\is_array($years) === false || \count($years) === 0) {
                     $requestParams->setPeriod(null);
@@ -111,6 +131,14 @@ class Model_RequestParams {
     }
 
     /**
+     * @param string $string splits the string into arrays with no spaces
+     * @return array
+     */
+    private static function getStringArrayInQuotes(string $string): array {
+        return \explode(" ", static::getFirstStringInQuotes($string));
+    }
+
+    /**
      * Gets the first appearance of a quoted string in a string.
      * @param string $string
      * @return string
@@ -119,6 +147,22 @@ class Model_RequestParams {
         $array = [];
         if (\preg_match_all("|\"(.*)\"|U", $string, $array) === false) return "";
         return isset($array[1][0]) ? $array[1][0] : "";
+    }
+
+    /**
+     * Extracts the conjunction information of the query.
+     * @param string $query
+     * @return bool True means "AND" and false means "OR" conjunction.
+     * @throws \Exception in case the query is invalid.
+     */
+    private static function getConjunctionInfo(string $query): bool {
+        if (preg_match("|^Serverchoice all \".*\"|i", $query)) {
+            return true;
+        } else if (preg_match("|^Serverchoice any \".*\"|i", $query)) {
+            return false;
+        } else {
+            throw new \Exception("Invalid query string");
+        }
     }
 
 }

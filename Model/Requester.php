@@ -43,8 +43,8 @@ class Model_Requester {
             if (\property_exists($value, "value")) {
                 $id = $value->obj_id;
                 if (\is_array($value->value)) {
-                    $title = $value->value["1"];
-                    $dates = $value->value["2"];
+                    $title = $value->value["2"];
+                    $dates = $value->value["1"];
                 }
             };
 
@@ -55,18 +55,19 @@ class Model_Requester {
     }
 
     /**
-     * Initiates the GET Request to the salsah extended search API and converts the answer into a string.
-     * @param string $search Contains the search word
+     * Initiates the GET Request to the salsah extended search API and returns an array with all the resource information.
+     * @param array $searchWords Contains the search words
+     * @param bool $isAND Tells how the search words (in case more than one) has to be conjuncted. There are two possible conjunctions: "AND" & "OR".
      * @param Model_Period|null $period Contains the period of the search. In case there was no period given, it sets a default period which starts with the year 1 until the current year (Gregorian calendar).
-     * @return array
+     * @return array Returns the array with the resource information.
      */
-    public function httpGet(string $search, ?Model_Period $period = null): array {
+    public function httpGet(array $searchWords, bool $isAND, ?Model_Period $period = null): array {
         $url = "";
 
         if (!$period instanceof Model_Period) {
             $period = new Model_Period(Config::MIN_SEARCH_YEAR, intval(date("Y")));
         }
-        $url = $this->urlBuilder->extendedURL($search, $this->maxResult, $period);
+        $url = $this->urlBuilder->getSearchURL($searchWords, $this->maxResult, $period, $isAND);
 
         $res_str = \file_get_contents($url);
         $res_obj = \json_decode($res_str);

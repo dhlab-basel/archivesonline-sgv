@@ -22,6 +22,8 @@ class Model_XMLBuilder {
      */
     private const PACKING = "xml";
 
+    private const RESOURCE_URL = "http://www.salsah.org/api/resources/";
+
     /**
      * @var int The maximum result
      */
@@ -111,7 +113,7 @@ class Model_XMLBuilder {
             $el_record->appendChild($el_exReData);
 
             $el_score = $xml->createElement("rel:score");
-            $el_link = $xml->createElement("ap:link");
+            $el_link = $xml->createElement("ap:link", static::RESOURCE_URL . $value->getID());
             $el_beginDate = $xml->createElement("ap:beginDateISO", $value->getDate1Full());
             $el_beginApp = $xml->createElement("ap:beginApprox", "0");
             $el_endDate = $xml->createElement("ap:endDateISO", $value->getDate2Full());
