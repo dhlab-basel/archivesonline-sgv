@@ -161,7 +161,7 @@ class Model_RequestParams {
         } else if (preg_match("|^Serverchoice any \".*\"|i", $query)) {
             return false;
         } else {
-            throw new \Exception("Invalid query string");
+            throw new \Exception("Invalid query string (preg_match -> fail)");
         }
     }
 
