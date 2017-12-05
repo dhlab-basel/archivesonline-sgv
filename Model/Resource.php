@@ -38,7 +38,7 @@ class Model_Resource {
      * @param string $precision Gives the precision of the day. There are currently three possible precisions: DAY, MONTH, YEAR
      * @return string
      */
-    private static function convertDate(int $date, string $precision, bool $reduction): string {
+    public static function convertDate(int $date, string $precision, bool $reduction): string {
         $date_parts = \explode("/" , \jdtogregorian($date));
         if ($reduction) {
             switch ($precision) {
