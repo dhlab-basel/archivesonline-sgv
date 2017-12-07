@@ -1,29 +1,27 @@
 <?php
 
-declare(strict_types=1);
-
 use PHPUnit\Framework\TestCase;
 
 class ResourceTest extends TestCase{
     /**
      * @var int This juilan day equals 4/30/1949 in gregorian calendar
      */
-    private const JULIAN_DAY_VAL_1 = 2433037;
+    const JULIAN_DAY_VAL_1 = 2433037;
     /**
      * @var int This juilan day equals 5/20/1958 in gregorian calendar
      */
-    private const JULIAN_DAY_VAL_2 = 2436344;
+    const JULIAN_DAY_VAL_2 = 2436344;
     /**
      * @var int This juilan day equals 12/31/1972 in gregorian calendar
      */
-    private const JULIAN_DAY_VAL_3 = 2441683;
+    const JULIAN_DAY_VAL_3 = 2441683;
     /**
      * @var int This juilan day equals 4/30/1984 in gregorian calendar
      */
-    private const JULIAN_DAY_VAL_4 = 2445821;
+    const JULIAN_DAY_VAL_4 = 2445821;
     protected $dateValue;
 
-    private function generateDateValue(int $dateval1, int $dateval2, string $dateprecision1, string $dateprecision2): stdClass {
+    private function generateDateValue($dateval1, $dateval2, $dateprecision1, $dateprecision2) {
         $dateValue = new StdClass();
         $dateValue->dateval1 = strval($dateval1);
         $dateValue->dateval2 = strval($dateval2);
@@ -35,7 +33,7 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
-    public function convertDate_DateValue1():void{
+    public function convertDate_DateValue1() {
         $result = \ArchivesOnlineSGV\Model_Resource::convertDate(static::JULIAN_DAY_VAL_1,"DAY", true);
         $this->assertEquals("30.4.1949", $result);
     }
@@ -43,7 +41,7 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
-    public function convertDate_DateValue2():void{
+    public function convertDate_DateValue2() {
         $result = \ArchivesOnlineSGV\Model_Resource::convertDate(static::JULIAN_DAY_VAL_2,"DAY", true);
         $this->assertEquals("20.5.1958", $result);
     }
@@ -51,7 +49,7 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
-    public function convertDate_DateValue3():void{
+    public function convertDate_DateValue3() {
         $result = \ArchivesOnlineSGV\Model_Resource::convertDate(static::JULIAN_DAY_VAL_3,"DAY", true);
         $this->assertEquals("31.12.1972", $result);
     }
@@ -59,7 +57,7 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
-    public function convertDate_DateValue4():void{
+    public function convertDate_DateValue4() {
         $result = \ArchivesOnlineSGV\Model_Resource::convertDate(static::JULIAN_DAY_VAL_4,"DAY", true);
         $this->assertEquals("30.4.1984", $result);
     }
@@ -67,7 +65,7 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
-    public function convertDate_NoValidPrecision():void{
+    public function convertDate_NoValidPrecision() {
         $result = \ArchivesOnlineSGV\Model_Resource::convertDate(static::JULIAN_DAY_VAL_1,"Pippi Langstrumpf", true);
         $this->assertEquals("NONE", $result);
     }
@@ -75,7 +73,7 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
-    public function convertDate_DayPrecision():void{
+    public function convertDate_DayPrecision() {
         $result = \ArchivesOnlineSGV\Model_Resource::convertDate(static::JULIAN_DAY_VAL_3,"DAY", true);
         $this->assertEquals("31.12.1972", $result);
     }
@@ -83,7 +81,7 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
-    public function convertDate_MonthPrecision():void{
+    public function convertDate_MonthPrecision() {
         $result = \ArchivesOnlineSGV\Model_Resource::convertDate(static::JULIAN_DAY_VAL_3,"MONTH", true);
         $this->assertEquals("12.1972", $result);
     }
@@ -91,7 +89,7 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
-    public function convertDate_YearPrecision():void{
+    public function convertDate_YearPrecision() {
         $result = \ArchivesOnlineSGV\Model_Resource::convertDate(static::JULIAN_DAY_VAL_3,"YEAR", true);
         $this->assertEquals("1972", $result);
     }
@@ -99,7 +97,7 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
-    public function convertDate_NoReduction():void{
+    public function convertDate_NoReduction() {
         $result = \ArchivesOnlineSGV\Model_Resource::convertDate(static::JULIAN_DAY_VAL_4,"MONTH", false);
         $this->assertEquals("1984-4-30", $result);
     }
@@ -107,7 +105,7 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
-    public function id(): void {
+    public function id() {
         $dateValues = $this->generateDateValue(static::JULIAN_DAY_VAL_1, static::JULIAN_DAY_VAL_2, "DAY", "DAY");
         $dateObject = new \ArchivesOnlineSGV\Model_Resource("799", "Lorem Ipsum", $dateValues);
         $this->assertEquals("Lorem Ipsum",$dateObject->getTitle());
@@ -117,7 +115,7 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
-    public function title(): void {
+    public function title() {
         $dateValues = $this->generateDateValue(static::JULIAN_DAY_VAL_1, static::JULIAN_DAY_VAL_2, "DAY", "DAY");
         $dateObject = new \ArchivesOnlineSGV\Model_Resource("1", "Der Hofnarr von Pfeffingen bringt den Basler Bischoff zum Lachen", $dateValues);
         $this->assertEquals("Der Hofnarr von Pfeffingen bringt den Basler Bischoff zum Lachen",$dateObject->getTitle());
@@ -127,7 +125,7 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
-    public function reducedDate_PrecisionDay_SameYear(): void {
+    public function reducedDate_PrecisionDay_SameYear() {
         $dateValues = $this->generateDateValue(static::JULIAN_DAY_VAL_1, static::JULIAN_DAY_VAL_1, "DAY", "DAY");
         $dateObject = new \ArchivesOnlineSGV\Model_Resource("1", "Lorem Ipsum", $dateValues);
         $this->assertEquals("30.4.1949",$dateObject->getDate());
@@ -136,7 +134,7 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
-    public function reducedDate_PrecisionDay_DifferentYear(): void {
+    public function reducedDate_PrecisionDay_DifferentYear() {
         $dateValues = $this->generateDateValue(static::JULIAN_DAY_VAL_1, static::JULIAN_DAY_VAL_2, "DAY", "DAY");
         $dateObject = new \ArchivesOnlineSGV\Model_Resource("1", "Lorem Ipsum", $dateValues);
         $this->assertEquals("30.4.1949- 20.5.1958",$dateObject->getDate());
@@ -145,7 +143,7 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
-    public function reducedDate_PrecisionMonth_SameYear(): void {
+    public function reducedDate_PrecisionMonth_SameYear() {
         $dateValues = $this->generateDateValue(static::JULIAN_DAY_VAL_1, static::JULIAN_DAY_VAL_1, "MONTH", "MONTH");
         $dateObject = new \ArchivesOnlineSGV\Model_Resource("1", "Lorem Ipsum", $dateValues);
         $this->assertEquals("4.1949",$dateObject->getDate());
@@ -154,7 +152,7 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
-    public function reducedDate_PrecisionMonth_DifferentYear(): void {
+    public function reducedDate_PrecisionMonth_DifferentYear() {
         $dateValues = $this->generateDateValue(static::JULIAN_DAY_VAL_1, static::JULIAN_DAY_VAL_2, "MONTH", "MONTH");
         $dateObject = new \ArchivesOnlineSGV\Model_Resource("1", "Lorem Ipsum", $dateValues);
         $this->assertEquals("4.1949- 5.1958",$dateObject->getDate());
@@ -163,7 +161,7 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
-    public function reducedDate_PrecisionYear_SameYear(): void {
+    public function reducedDate_PrecisionYear_SameYear() {
         $dateValues = $this->generateDateValue(static::JULIAN_DAY_VAL_1, static::JULIAN_DAY_VAL_1, "YEAR", "YEAR");
         $dateObject = new \ArchivesOnlineSGV\Model_Resource("1", "Lorem Ipsum", $dateValues);
         $this->assertEquals("1949",$dateObject->getDate());
@@ -172,7 +170,7 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
-    public function reducedDate_PrecisionYear_DifferentYear(): void {
+    public function reducedDate_PrecisionYear_DifferentYear() {
         $dateValues = $this->generateDateValue(static::JULIAN_DAY_VAL_1, static::JULIAN_DAY_VAL_2, "YEAR", "YEAR");
         $dateObject = new \ArchivesOnlineSGV\Model_Resource("1", "Lorem Ipsum", $dateValues);
         $this->assertEquals("1949- 1958",$dateObject->getDate());
@@ -181,7 +179,7 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
-    public function fullDate1(): void {
+    public function fullDate1() {
         $dateValues = $this->generateDateValue(static::JULIAN_DAY_VAL_3, static::JULIAN_DAY_VAL_4, "YEAR", "YEAR");
         $dateObject = new \ArchivesOnlineSGV\Model_Resource("1", "Lorem Ipsum", $dateValues);
         $this->assertEquals("1972-12-31",$dateObject->getDate1Full());
@@ -190,7 +188,7 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
-    public function fullDate2(): void {
+    public function fullDate2() {
         $dateValues = $this->generateDateValue(static::JULIAN_DAY_VAL_3, static::JULIAN_DAY_VAL_4, "YEAR", "YEAR");
         $dateObject = new \ArchivesOnlineSGV\Model_Resource("1", "Lorem Ipsum", $dateValues);
         $this->assertEquals("1984-4-30",$dateObject->getDate2Full());
@@ -199,7 +197,7 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
-    public function nullDateValues(): void {
+    public function nullDateValues() {
         $dateObject = new \ArchivesOnlineSGV\Model_Resource("1", "Lorem Ipsum", null);
         $this->assertEquals("Undatiert",$dateObject->getDate());
         $this->assertEquals("",$dateObject->getDate1Full());

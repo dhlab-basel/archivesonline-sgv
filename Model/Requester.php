@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace ArchivesOnlineSGV;
 
 /**
@@ -23,7 +21,7 @@ class Model_Requester {
      * @param Model_URLBuilder $urlBuilder
      * @param int $maxResult
      */
-    public function __construct(Model_URLBuilder $urlBuilder, int $maxResult) {
+    public function __construct($urlBuilder, $maxResult) {
         $this->urlBuilder = $urlBuilder;
         $this->maxResult = $maxResult;
     }
@@ -33,7 +31,7 @@ class Model_Requester {
      * @param array $subjects This contains the raw answer of the salsah API about the resources
      * @return array Returns a clean array with the needed information.
      */
-    private function extractResource(array $subjects): array {
+    private function extractResource($subjects) {
         $resources = array();
         foreach ($subjects as $key => $value) {
             $id = $value->obj_id;
@@ -61,7 +59,7 @@ class Model_Requester {
      * @param Model_Period|null $period Contains the period of the search. In case there was no period given, it sets a default period which starts with the year 1 until the current year (Gregorian calendar).
      * @return array Returns the array with the resource information.
      */
-    public function httpGet(array $searchWords, bool $isAND, ?Model_Period $period = null): array {
+    public function httpGet($searchWords, $isAND, $period) {
         $url = "";
 
         if (!$period instanceof Model_Period) {

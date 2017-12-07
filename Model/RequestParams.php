@@ -1,8 +1,8 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace ArchivesOnlineSGV;
+
+//include("Period.php");
 
 /**
  * Class Model_RequestParams
@@ -33,56 +33,56 @@ class Model_RequestParams {
     /**
      * @return bool
      */
-    public function isAND(): bool {
+    public function isAND() {
         return $this->isAND;
     }
 
     /**
      * @param bool $isAND
      */
-    public function setIsAND(bool $isAND) {
+    public function setIsAND($isAND) {
         $this->isAND = $isAND;
     }
 
     /**
      * @return array searchWords
      */
-    public function getSearch(): array {
+    public function getSearch() {
         return $this->searchWords;
     }
 
     /**
      * @param array $searchWords
      */
-    public function setSearch(array $searchWords) {
+    public function setSearch($searchWords) {
         $this->searchWords = $searchWords;
     }
 
     /**
      * @return Model_Period|null
      */
-    public function getPeriod(): ?Model_Period {
+    public function getPeriod() {
         return $this->period;
     }
 
     /**
      * @param Model_Period|null $period
      */
-    public function setPeriod(?Model_Period $period) {
+    public function setPeriod($period) {
         $this->period = $period;
     }
 
     /**
      * @return int
      */
-    public function getMaxRecords(): int {
+    public function getMaxRecords() {
         return $this->maxRecords;
     }
 
     /**
      * @param int $maxRecords
      */
-    public function setMaxRecords(int $maxRecords) {
+    public function setMaxRecords($maxRecords) {
         $this->maxRecords = $maxRecords >= Config::MIN_SEARCH_RESULTS && $maxRecords <= Config::MAX_SEARCH_RESULTS ? $maxRecords : Config::MAX_SEARCH_RESULTS;
     }
 
@@ -98,9 +98,8 @@ class Model_RequestParams {
      * @return Model_RequestParams
      * @throws \Exception in case the query is invalid.
      */
-    public static function fromArchivesOnlineRequest(string $query, int $maxRecords): Model_RequestParams {
+    public static function fromArchivesOnlineRequest($query, $maxRecords) {
         $requestParams = new Model_RequestParams();
-
         $queryArray = \explode("AND", $query);
 
         switch (\count($queryArray)) {
@@ -134,7 +133,7 @@ class Model_RequestParams {
      * @param string $string splits the string into arrays with no spaces
      * @return array
      */
-    private static function getStringArrayInQuotes(string $string): array {
+    private static function getStringArrayInQuotes($string) {
         return \explode(" ", static::getFirstStringInQuotes($string));
     }
 
@@ -143,7 +142,7 @@ class Model_RequestParams {
      * @param string $string
      * @return string
      */
-    private static function getFirstStringInQuotes(string $string): string {
+    private static function getFirstStringInQuotes($string) {
         $array = [];
         if (\preg_match_all("|\"(.*)\"|U", $string, $array) === false) return "";
         return isset($array[1][0]) ? $array[1][0] : "";
@@ -155,7 +154,7 @@ class Model_RequestParams {
      * @return bool True means "AND" and false means "OR" conjunction.
      * @throws \Exception in case the query is invalid.
      */
-    private static function getConjunctionInfo(string $query): bool {
+    private static function getConjunctionInfo($query) {
         if (preg_match("|^Serverchoice all \".*\"|i", $query)) {
             return true;
         } else if (preg_match("|^Serverchoice any \".*\"|i", $query)) {

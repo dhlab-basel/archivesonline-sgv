@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace ArchivesOnlineSGV;
 
 /**
@@ -23,14 +21,14 @@ class Model_Period {
     /**
      * @return int
      */
-    public function getFromYear(): int {
+    public function getFromYear() {
         return $this->fromYear;
     }
 
     /**
      * @return int
      */
-    public function getToYear(): int {
+    public function getToYear() {
         return $this->toYear;
     }
 
@@ -39,7 +37,7 @@ class Model_Period {
      * @param int $fromYear
      * @param int $toYear
      */
-    public function __construct(int $fromYear, int $toYear) {
+    public function __construct($fromYear, $toYear) {
         $this->fromYear = $fromYear;
         $this->toYear = $toYear;
     }

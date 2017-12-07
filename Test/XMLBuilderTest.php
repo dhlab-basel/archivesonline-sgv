@@ -1,22 +1,20 @@
 <?php
 
-declare(strict_types=1);
-
 use PHPUnit\Framework\TestCase;
 include("Model/XMLBuilder.php");
 include("Model/Resource.php");
 
 final class XMLBuilderTest extends TestCase{
-    private const NUMBERS = 50;
-    private const SCHEMA = "isad";
-    private const PACKING = "xml";
+    const NUMBERS = 50;
+    const SCHEMA = "isad";
+    const PACKING = "xml";
     protected $xmlBuilder;
 
-    protected function setUp(): void {
+    protected function setUp() {
         $this->xmlBuilder = new \ArchivesOnlineSGV\Model_XMLBuilder(static::NUMBERS);
     }
 
-    private function initializeData(bool $containsData): array {
+    private function initializeData( $containsData) {
         $resources = array();
         if ($containsData) {
             $obj = (object) array('dateval1' => '2433008', 'dateval2' => '2433037', 'calendar' => 'GREGORIAN', 'dateprecision1' => 'MONTH' , 'dateprecision2' => 'MONTH');
@@ -26,7 +24,7 @@ final class XMLBuilderTest extends TestCase{
         return $resources;
     }
 
-    private function baseElements(): DOMDocument {
+    private function baseElements() {
         $DOMDocument = new \DOMDocument("1.0");
 
         $expected_root = $DOMDocument->createElement( "searchRetrieveResponse");
@@ -46,7 +44,7 @@ final class XMLBuilderTest extends TestCase{
         return $DOMDocument;
     }
 
-    private function addRecord(DOMDocument $DOMDocument): DOMDocument{
+    private function addRecord(DOMDocument $DOMDocument) {
         $el_records = null;
         $nodeList = $DOMDocument->getElementsByTagName("records");
         if($nodeList->length > 1) {
@@ -120,7 +118,7 @@ final class XMLBuilderTest extends TestCase{
     /**
      * @test Case when there is no <record> data within the <records> tag
      */
-    public function containsNoRecordData(): void {
+    public function containsNoRecordData() {
         //Creating the expected DOMDocument
         $expected = $this->baseElements();
         $nodeList = $expected->getElementsByTagName("searchRetrieveResponse");
@@ -139,7 +137,7 @@ final class XMLBuilderTest extends TestCase{
     /**
      * @test Case when there is one <record> data within the <records> tag
      */
-    public function containsOneRecordData(): void {
+    public function containsOneRecordData() {
         //Creating the expected DOMDocument
         $expected = $this->baseElements();
         $expected = $this->addRecord($expected);

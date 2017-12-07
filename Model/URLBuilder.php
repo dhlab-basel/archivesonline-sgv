@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace ArchivesOnlineSGV;
 
 /**
@@ -12,39 +10,39 @@ class Model_URLBuilder {
     /**
      * @var string First part of the search API URL.
      */
-    private const SEARCH_EXTENDED = "http://www.salsah.org/api/search/?searchtype=extended";
+    const SEARCH_EXTENDED = "http://www.salsah.org/api/search/?searchtype=extended";
     /**
      * @var string Property parameter for the title.
      */
-    private const PROPERTY_TITLE = "&property_id[]=1";
+    const PROPERTY_TITLE = "&property_id[]=1";
     /**
      * @var string Property parameter for the date.
      */
-    private const PROPERTY_DATE = "&property_id[]=46";
+    const PROPERTY_DATE = "&property_id[]=46";
     /**
      * @var string Compare parameter for exist.
      */
-    private const COMPARE_EXIST = "&compop[]=EXISTS";
+    const COMPARE_EXIST = "&compop[]=EXISTS";
     /**
      * @var string Compare parameter for equal.
      */
-    private const COMPARE_EQUAL = "&compop[]=EQ";
+    const COMPARE_EQUAL = "&compop[]=EQ";
     /**
      * @var string Compare parameter for match.
      */
-    private const COMPARE_MATCH = "&compop[]=MATCH";
+    const COMPARE_MATCH = "&compop[]=MATCH";
     /**
      * @var string Value parameter without value.
      */
-    private const VALUE = "&searchval[]=";
+    const VALUE = "&searchval[]=";
     /**
      * @var string Row number parameter without value.
      */
-    private const ROW_NUMBER = "&show_nrows=";
+    const ROW_NUMBER = "&show_nrows=";
     /**
      * @var string Filter parameter for only SVG projects.
      */
-    private const FILTER_IMAGE = "&filter_by_restype=65";
+    const FILTER_IMAGE = "&filter_by_restype=65";
 
     /**
      * Builds the URL for the request to the salsah API. The search is an extended search which will send the search words, period, the numbers of results and the conjunction information.
@@ -54,7 +52,7 @@ class Model_URLBuilder {
      * @param bool $isAND Contains the information of the conjunction. True means "AND" where false means "OR.
      * @return string Contains the URL with all the information needed to start the request.
      */
-    public function getSearchURL(array $words, int $number, Model_Period $period, bool $isAND):string {
+    public function getSearchURL( $words, $number, $period, $isAND) {
         $url = static::SEARCH_EXTENDED;
         $val_gregorian = static::VALUE . "GREGORIAN:" . $period->getFromYear(). ":". $period->getToYear();
 

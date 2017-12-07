@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use PHPUnit\Framework\TestCase;
 include("Model/RequestParams.php");
 include("Config.php");
@@ -11,7 +9,7 @@ class RequestParamsTest extends TestCase {
     /**
      * @test
      */
-    public function invalidQuery_NoAnd(): void {
+    public function invalidQuery_NoAnd() {
         $request = "Invalid";
 
         $this->expectExceptionMessage("Invalid query string (preg_match -> fail)");
@@ -21,7 +19,7 @@ class RequestParamsTest extends TestCase {
     /**
      * @test
      */
-    public function invalidQuery_TwoAnd(): void {
+    public function invalidQuery_TwoAnd() {
         $request = "Serverchoice all \"Haus\" AND isad.date WITHIN \"2000 2000\" AND invalid";
 
         $this->expectExceptionMessage("Invalid query string");
@@ -31,7 +29,7 @@ class RequestParamsTest extends TestCase {
     /**
      * @test
      */
-    public function all_NoWords_WithoutDate(): void {
+    public function all_NoWords_WithoutDate() {
         $request = "Serverchoice all \"\"";
         $requestParam = \ArchivesOnlineSGV\Model_RequestParams::fromArchivesOnlineRequest($request,50);
 
@@ -45,7 +43,7 @@ class RequestParamsTest extends TestCase {
     /**
      * @test
      */
-    public function all_NoWords_SameYear(): void {
+    public function all_NoWords_SameYear() {
         $request = "Serverchoice all \"\" AND isad.date WITHIN \"2000 2000\"";
         $requestParam = \ArchivesOnlineSGV\Model_RequestParams::fromArchivesOnlineRequest($request,50);
 
@@ -60,7 +58,7 @@ class RequestParamsTest extends TestCase {
     /**
      * @test
      */
-    public function all_NoWords_DifferentYear(): void {
+    public function all_NoWords_DifferentYear() {
         $request = "Serverchoice all \"\" AND isad.date WITHIN \"1 2017\"";
         $requestParam = \ArchivesOnlineSGV\Model_RequestParams::fromArchivesOnlineRequest($request,50);
 
@@ -75,7 +73,7 @@ class RequestParamsTest extends TestCase {
     /**
      * @test
      */
-    public function any_NoWords_WithoutDate(): void {
+    public function any_NoWords_WithoutDate() {
         $request = "Serverchoice any \"\"";
         $requestParam = \ArchivesOnlineSGV\Model_RequestParams::fromArchivesOnlineRequest($request,50);
 
@@ -89,7 +87,7 @@ class RequestParamsTest extends TestCase {
     /**
      * @test
      */
-    public function any_NoWords_SameYear(): void {
+    public function any_NoWords_SameYear() {
         $request = "Serverchoice any \"\" AND isad.date WITHIN \"2000 2000\"";
         $requestParam = \ArchivesOnlineSGV\Model_RequestParams::fromArchivesOnlineRequest($request,50);
 
@@ -104,7 +102,7 @@ class RequestParamsTest extends TestCase {
     /**
      * @test
      */
-    public function any_NoWords_DifferentYear(): void {
+    public function any_NoWords_DifferentYear() {
         $request = "Serverchoice any \"\" AND isad.date WITHIN \"1 2017\"";
         $requestParam = \ArchivesOnlineSGV\Model_RequestParams::fromArchivesOnlineRequest($request,50);
 
@@ -119,7 +117,7 @@ class RequestParamsTest extends TestCase {
     /**
      * @test
      */
-    public function all_OneWord_WithoutDate(): void {
+    public function all_OneWord_WithoutDate() {
         $request = "Serverchoice all \"Haus\"";
         $requestParam = \ArchivesOnlineSGV\Model_RequestParams::fromArchivesOnlineRequest($request,50);
 
@@ -133,7 +131,7 @@ class RequestParamsTest extends TestCase {
     /**
      * @test
      */
-    public function all_OneWord_SameYear(): void {
+    public function all_OneWord_SameYear() {
         $request = "Serverchoice all \"Haus\" AND isad.date WITHIN \"2000 2000\"";
         $requestParam = \ArchivesOnlineSGV\Model_RequestParams::fromArchivesOnlineRequest($request,50);
 
@@ -148,7 +146,7 @@ class RequestParamsTest extends TestCase {
     /**
      * @test
      */
-    public function all_OneWord_DifferentYear(): void {
+    public function all_OneWord_DifferentYear() {
         $request = "Serverchoice all \"Haus\" AND isad.date WITHIN \"1 2017\"";
         $requestParam = \ArchivesOnlineSGV\Model_RequestParams::fromArchivesOnlineRequest($request,50);
 
@@ -163,7 +161,7 @@ class RequestParamsTest extends TestCase {
     /**
      * @test
      */
-    public function all_TwoWords_WithoutDate(): void {
+    public function all_TwoWords_WithoutDate() {
         $request = "Serverchoice all \"Haus Kinder\"";
         $requestParam = \ArchivesOnlineSGV\Model_RequestParams::fromArchivesOnlineRequest($request,50);
 
@@ -178,7 +176,7 @@ class RequestParamsTest extends TestCase {
     /**
      * @test
      */
-    public function all_TwoWords_SameYear(): void {
+    public function all_TwoWords_SameYear() {
         $request = "Serverchoice all \"Haus Kinder\" AND isad.date WITHIN \"2000 2000\"";
         $requestParam = \ArchivesOnlineSGV\Model_RequestParams::fromArchivesOnlineRequest($request,50);
 
@@ -194,7 +192,7 @@ class RequestParamsTest extends TestCase {
     /**
      * @test
      */
-    public function all_TwoWords_DifferentYear(): void {
+    public function all_TwoWords_DifferentYear() {
         $request = "Serverchoice all \"Haus Kinder\" AND isad.date WITHIN \"1 2017\"";
         $requestParam = \ArchivesOnlineSGV\Model_RequestParams::fromArchivesOnlineRequest($request,50);
 
@@ -210,7 +208,7 @@ class RequestParamsTest extends TestCase {
     /**
      * @test
      */
-    public function any_OneWord_WithoutDate(): void {
+    public function any_OneWord_WithoutDate() {
         $request = "Serverchoice any \"Haus\"";
         $requestParam = \ArchivesOnlineSGV\Model_RequestParams::fromArchivesOnlineRequest($request,50);
 
@@ -225,7 +223,7 @@ class RequestParamsTest extends TestCase {
     /**
      * @test
      */
-    public function any_OneWord_SameYear(): void {
+    public function any_OneWord_SameYear() {
         $request = "Serverchoice any \"Haus\" AND isad.date WITHIN \"2000 2000\"";
         $requestParam = \ArchivesOnlineSGV\Model_RequestParams::fromArchivesOnlineRequest($request,50);
 
@@ -242,7 +240,7 @@ class RequestParamsTest extends TestCase {
     /**
      * @test
      */
-    public function any_OneWord_DifferentYear(): void {
+    public function any_OneWord_DifferentYear() {
         $request = "Serverchoice any \"Haus\" AND isad.date WITHIN \"1 2017\"";
         $requestParam = \ArchivesOnlineSGV\Model_RequestParams::fromArchivesOnlineRequest($request,50);
 
@@ -259,7 +257,7 @@ class RequestParamsTest extends TestCase {
     /**
      * @test
      */
-    public function any_TwoWords_WithoutDate(): void {
+    public function any_TwoWords_WithoutDate() {
         $request = "Serverchoice any \"Haus Kinder\"";
         $requestParam = \ArchivesOnlineSGV\Model_RequestParams::fromArchivesOnlineRequest($request,50);
 
@@ -274,7 +272,7 @@ class RequestParamsTest extends TestCase {
     /**
      * @test
      */
-    public function any_TwoWords_SameYear(): void {
+    public function any_TwoWords_SameYear() {
         $request = "Serverchoice any \"Haus Kinder\" AND isad.date WITHIN \"2000 2000\"";
         $requestParam = \ArchivesOnlineSGV\Model_RequestParams::fromArchivesOnlineRequest($request,50);
 
@@ -290,7 +288,7 @@ class RequestParamsTest extends TestCase {
     /**
      * @test
      */
-    public function any_TwoWords_DifferentYear(): void {
+    public function any_TwoWords_DifferentYear() {
         $request = "Serverchoice any \"Haus Kinder\" AND isad.date WITHIN \"1 2017\"";
         $requestParam = \ArchivesOnlineSGV\Model_RequestParams::fromArchivesOnlineRequest($request,50);
 

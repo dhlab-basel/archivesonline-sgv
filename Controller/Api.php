@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace ArchivesOnlineSGV;
 
 /**
@@ -31,25 +29,35 @@ class Controller_Api {
     /**
      * Checks the query, instantiates all the necessary classes, initiates the salsah request and delegates the creation of the XML.
      */
-    function sgv():void {
+    function sgv() {
         $query = isset($_GET["query"]) ? $_GET["query"] : "";
         $maxRecords = isset($_GET["maximumRecords"]) ? \intval($_GET["maximumRecords"]) : Config::MAX_SEARCH_RESULTS;
 
         $requestParams = Model_RequestParams::fromArchivesOnlineRequest($query, $maxRecords);
 
         $urlBuilder = new Model_URLBuilder();
+
         $requester = new Model_Requester($urlBuilder, $requestParams->getMaxRecords());
+
         $xmlBuilder = new Model_XMLBuilder($requestParams->getMaxRecords());
 
         $results = $requester->httpGet($requestParams->getSearch(), $requestParams->isAND(), $requestParams->getPeriod());
+
         echo $xmlBuilder->createXML($results);
     }
 
     /**
      * Will be shown in case the URL is not implemented.
      */
-    function notImplemented():void  {
+    function notImplemented() {
         echo "<xml><error>Not implemented exception</error></xml>";
+    }
+
+    /**
+     * Will be shown in case the URL is invalid.
+     */
+    function invalidQuery() {
+        echo "<xml><error>Query is invalid</error></xml>";
     }
 
 }

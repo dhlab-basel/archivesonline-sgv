@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace ArchivesOnlineSGV;
 
 /**
@@ -12,17 +10,19 @@ class Model_XMLBuilder {
     /**
      * @var float Version number
      */
-    private const VERSION = 1.2;
+    const VERSION = 1.2;
     /**
      * @var string Schema
      */
-    private const SCHEMA = "isad";
+    const SCHEMA = "isad";
     /**
      * @var string Packing
      */
-    private const PACKING = "xml";
-
-    private const RESOURCE_URL = "http://www.salsah.org/api/resources/";
+    const PACKING = "xml";
+    /**
+     * @var string Resource url
+     */
+    const RESOURCE_URL = "http://www.salsah.org/api/resources/";
 
     /**
      * @var int The maximum result
@@ -33,7 +33,7 @@ class Model_XMLBuilder {
      * Model_XMLBuilder constructor.
      * @param int $maxResult
      */
-    public function __construct(int $maxResult) {
+    public function __construct($maxResult) {
         $this->maxResult = $maxResult;
     }
 
@@ -43,7 +43,7 @@ class Model_XMLBuilder {
      * @param array $resources contains all the resources with the information needed to create the XML structure.
      * @return string
      */
-    public function createXML(array $resources):string {
+    public function createXML(array $resources) {
         $xml = new \DOMDocument("1.0");
 
         //root element

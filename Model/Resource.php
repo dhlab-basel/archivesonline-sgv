@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace ArchivesOnlineSGV;
 
 /**
@@ -38,7 +36,7 @@ class Model_Resource {
      * @param string $precision Gives the precision of the day. There are currently three possible precisions: DAY, MONTH, YEAR
      * @return string
      */
-    public static function convertDate(int $date, string $precision, bool $reduction): string {
+    public static function convertDate($date, $precision, $reduction) {
         $date_parts = \explode("/" , \jdtogregorian($date));
         if ($reduction) {
             switch ($precision) {
@@ -62,7 +60,7 @@ class Model_Resource {
      * @param string $title
      * @param null|\stdClass $dateValues
      */
-    public function __construct(string $id, string $title, ?\stdClass $dateValues) {
+    public function __construct($id, $title, $dateValues) {
         $this->id = $id;
         $this->title = $title;
         $this->dateValues = $dateValues;
@@ -85,7 +83,7 @@ class Model_Resource {
      * The API is : http://www.salsah.org/api/resource/{ID} and you receive a JSON.
      * @return string
      */
-    public function getID(): string {
+    public function getID() {
         return $this->id;
     }
 
@@ -93,7 +91,7 @@ class Model_Resource {
      * Gets the title of the resource.
      * @return string
      */
-    public function getTitle(): string {
+    public function getTitle() {
         return $this->title;
     }
 
@@ -101,7 +99,7 @@ class Model_Resource {
      * Gets the date of the resource in the right format.
      * @return string Returns the date. In case the date represent a period (= date1 and date2 are the same), the string contains both dates separated by a hyphen.
      */
-    public function getDate(): string {
+    public function getDate() {
         return ($this->date1_reduced === $this->date2_reduced) ? $this->date1_reduced: $this->date1_reduced . "- " . $this->date2_reduced;
     }
 
@@ -109,7 +107,7 @@ class Model_Resource {
      * Gets the start date of the resource without reduction.
      * @return string
      */
-    public function getDate1Full(): string {
+    public function getDate1Full() {
         return $this->date1_full;
     }
 
@@ -118,7 +116,7 @@ class Model_Resource {
      * Gets the end date of the resource without reduction.
      * @return string
      */
-    public function getDate2Full(): string {
+    public function getDate2Full() {
         return $this->date2_full;
     }
 
