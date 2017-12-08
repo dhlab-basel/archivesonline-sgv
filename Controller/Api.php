@@ -53,13 +53,6 @@ class Controller_Api {
         echo "<xml><error>Not implemented exception</error></xml>";
     }
 
-    /**
-     * Will be shown in case the URL is invalid.
-     */
-    function invalidQuery() {
-        echo "<xml><error>Query is invalid</error></xml>";
-    }
-
 }
 
 ?>
