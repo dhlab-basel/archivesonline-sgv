@@ -45,6 +45,7 @@ class Model_XMLBuilder {
      */
     public function createXML(array $resources) {
         $xml = new \DOMDocument("1.0", "utf-8");
+        $xml->xmlStandalone = true;
 
         //root element
         $el_seReRe = $xml->createElementNS("http://www.loc.gov/zing/srw/", "searchRetrieveResponse");
@@ -108,17 +109,22 @@ class Model_XMLBuilder {
             $el_record->appendChild($el_rePosition);
 
             $el_exReData = $xml->createElement("extraRecordData");
-            $el_exReData->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:rel", "info:srw/extension/2/relevancy-1.0");
-            $el_exReData->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
             $el_record->appendChild($el_exReData);
 
             $el_score = $xml->createElement("rel:score");
+            $el_score->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:rel", "info:srw/extension/2/relevancy-1.0");
             $el_link = $xml->createElement("ap:link", static::RESOURCE_URL . $value->getID());
+            $el_link->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
             $el_beginDate = $xml->createElement("ap:beginDateISO", $value->getDate1Full());
+            $el_beginDate->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
             $el_beginApp = $xml->createElement("ap:beginApprox", "0");
+            $el_beginApp->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
             $el_endDate = $xml->createElement("ap:endDateISO", $value->getDate2Full());
+            $el_endDate->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
             $el_endApp = $xml->createElement("ap:endApprox", "0");
-            $el_digItem = $xml->createElement("ap:hasDigitizedItems");
+            $el_endApp->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
+            $el_digItem = $xml->createElement("ap:hasDigitizedItems", "0");
+            $el_digItem->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
 
             $children = array($el_score, $el_link, $el_beginDate, $el_beginApp, $el_endDate, $el_endApp, $el_digItem);
 
