@@ -44,7 +44,7 @@ class Model_XMLBuilder {
      * @return string
      */
     public function createXML(array $resources) {
-        $xml = new \DOMDocument("1.0");
+        $xml = new \DOMDocument("1.0", "utf-8");
 
         //root element
         $el_seReRe = $xml->createElementNS("http://www.loc.gov/zing/srw/", "searchRetrieveResponse");
