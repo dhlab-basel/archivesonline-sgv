@@ -144,7 +144,7 @@ final class XMLBuilderTest extends TestCase{
         $nodeList = $actual->getElementsByTagName("searchRetrieveResponse");
         $actual_root = $nodeList->item(0);
 
-        $this->assertEqualXMLStructure($expected_root, $actual_root, false, "Structure is not equal");
+        $this->assertEqualXMLStructure($expected_root, $actual_root, true, "Structure is not equal");
     }
 
     /**
