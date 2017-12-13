@@ -104,7 +104,7 @@ final class XMLBuilderTest extends TestCase{
         $el_exReData = $DOMDocument->createElement("extraRecordData");
         $el_record->appendChild($el_exReData);
 
-        $el_score = $DOMDocument->createElement("rel:score");
+        $el_score = $DOMDocument->createElement("rel:score",1);
         $el_score->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:rel", "info:srw/extension/2/relevancy-1.0");
         $el_link = $DOMDocument->createElement("ap:link");
         $el_link->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
