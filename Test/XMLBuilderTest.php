@@ -6,6 +6,7 @@ include("Model/Resource.php");
 
 final class XMLBuilderTest extends TestCase{
     const NUMBERS = 50;
+    const VERSION = 1.2;
     const SCHEMA = "isad";
     const PACKING = "xml";
     protected $xmlBuilder;
@@ -25,12 +26,17 @@ final class XMLBuilderTest extends TestCase{
     }
 
     private function baseElements() {
-        $DOMDocument = new \DOMDocument("1.0");
+        $DOMDocument = new \DOMDocument("1.0", "utf-8");
+        $DOMDocument->xmlStandalone = true;
 
         $expected_root = $DOMDocument->createElement( "searchRetrieveResponse");
         $DOMDocument->appendChild($expected_root);
 
-        $el_sruVersion = $DOMDocument->createElement("version");
+        $expected_root->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+        $expected_root->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:" . self::SCHEMA, "http://www.expertisecentrumdavid.be/xmlschemas/isad.xsd");
+        $expected_root->setAttributeNS("http://www.w3.org/2001/XMLSchema-instance", "schemaLocation", "http://www.loc.gov/zing/srw/ http://www.loc.gov/standards/sru/sru1-1archive/xml-files/srw-types.xsd");
+
+        $el_sruVersion = $DOMDocument->createElement("version", \strval(self::VERSION));
         $expected_root->appendChild($el_sruVersion);
 
         $el_recordsNumber = $DOMDocument->createElement("numberOfRecords");
@@ -99,12 +105,19 @@ final class XMLBuilderTest extends TestCase{
         $el_record->appendChild($el_exReData);
 
         $el_score = $DOMDocument->createElement("rel:score");
+        $el_score->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:rel", "info:srw/extension/2/relevancy-1.0");
         $el_link = $DOMDocument->createElement("ap:link");
+        $el_link->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
         $el_beginDate = $DOMDocument->createElement("ap:beginDateISO");
-        $el_beginApp = $DOMDocument->createElement("ap:beginApprox");
+        $el_beginDate->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
+        $el_beginApp = $DOMDocument->createElement("ap:beginApprox", "0");
+        $el_beginApp->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
         $el_endDate = $DOMDocument->createElement("ap:endDateISO");
-        $el_endApp = $DOMDocument->createElement("ap:endApprox");
-        $el_digItem = $DOMDocument->createElement("ap:hasDigitizedItems");
+        $el_endDate->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
+        $el_endApp = $DOMDocument->createElement("ap:endApprox", "0");
+        $el_endApp->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
+        $el_digItem = $DOMDocument->createElement("ap:hasDigitizedItems", "0");
+        $el_digItem->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
 
         $children = array($el_score, $el_link, $el_beginDate, $el_beginApp, $el_endDate, $el_endApp, $el_digItem);
 
@@ -151,7 +164,7 @@ final class XMLBuilderTest extends TestCase{
         $nodeList = $actual->getElementsByTagName("searchRetrieveResponse");
         $actual_root = $nodeList->item(0);
 
-        $this->assertEqualXMLStructure($expected_root, $actual_root, false, "Structure is not equal");
+        $this->assertEqualXMLStructure($expected_root, $actual_root, true, "Structure is not equal");
         //$this->fail("Show:" . $expected->saveXML(). "*******" . $actual->saveXML());
     }
 }
