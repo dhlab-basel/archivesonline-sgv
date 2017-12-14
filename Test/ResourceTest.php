@@ -134,6 +134,15 @@ class ResourceTest extends TestCase{
     /**
      * @test
      */
+    public function picture_Url() {
+        $dateValues = $this->generateDateValue(static::JULIAN_DAY_VAL_1, static::JULIAN_DAY_VAL_2, "DAY", "DAY");
+        $dateObject = new \ArchivesOnlineSGV\Model_Resource("1", "Lorem Ipsum", $dateValues, "http://www.salsah.org/api/resource");
+        $this->assertEquals("http://www.salsah.org/api/resource",$dateObject->getPictureURL());
+    }
+
+    /**
+     * @test
+     */
     public function reducedDate_PrecisionDay_SameYear() {
         $dateValues = $this->generateDateValue(static::JULIAN_DAY_VAL_1, static::JULIAN_DAY_VAL_1, "DAY", "DAY");
         $dateObject = new \ArchivesOnlineSGV\Model_Resource("1", "Lorem Ipsum", $dateValues, static::URL_DEFAULT_PICTURE);

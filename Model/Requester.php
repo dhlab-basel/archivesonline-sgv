@@ -37,7 +37,7 @@ class Model_Requester {
             $id = $value->obj_id;
             $title = "NONE";
             $dates = null;
-            $urlResource = "NONE";
+            $previewPath = "NONE";
 
             if (\property_exists($value, "value")) {
                 $id = $value->obj_id;
@@ -48,13 +48,15 @@ class Model_Requester {
             };
 
             if (\property_exists($value, "preview_path")) {
-                $urlResource = $value->preview_path;
+                $previewPath = $value->preview_path;
             }
-//            echo "URL    : ".$urlResource . "<br>";
-//            echo "REPLACE: <a href=" . static::generateURLResource($urlResource) .">" ." hier" ."</a><br>";
-            $urlResource = static::generateURLResource($urlResource);
 
-            $resource = new Model_Resource($id, $title, $dates, $urlResource);
+            if ($title === "") {
+                $title = static::getTitleFromResource($id);
+            }
+
+            $previewPath = static::generatePictureURL($previewPath);
+            $resource = new Model_Resource($id, $title, $dates, $previewPath);
             \array_push($resources, $resource);
         }
         return $resources;
@@ -83,13 +85,39 @@ class Model_Requester {
         return ($size == 0)? array(): $this->extractResource($subjects);
     }
 
-    private static function generateURLResource($urlResource) {
+    /**
+     * Tries to get the title of the resource by doing a resource request in case the first request had given "" for the $title.
+     * @param number $id
+     * @return string Returns the title if it exists
+     */
+    private function getTitleFromResource($id) {
+        $url = $this->urlBuilder->getResourceURL($id);
+
+        $res_str = \file_get_contents($url);
+        $res_obj = \json_decode($res_str);
+        $props = $res_obj->props;
+
+        if (\property_exists($props, "dc:title") && \property_exists($props->{"dc:title"}, "values") && isset($props->{"dc:title"}->{"values"}[1])) {
+            return $props->{"dc:title"}->{"values"}[1];
+        } else {
+            return "";
+        }
+
+    }
+
+    /**
+     * Generates the url for the picture of a resource.
+     * @param string $previewPath
+     * @return string Returns the url for the picture if it is possible.
+     */
+    private static function generatePictureURL($previewPath) {
         $pattern = "/^http:\/\/www\.salsah\.org\/core\/location\.php/";
 
-        if( \preg_match($pattern, $urlResource)) {
-            return $urlResource;
+        if( \preg_match($pattern, $previewPath)) {
+            //Default picture in case there is no access for the picture URL
+            return $previewPath;
         } else {
-            return \str_replace("qtype=thumb", "qtype=full&reduce=2", $urlResource);
+            return \str_replace("qtype=thumb", "qtype=full&reduce=2", $previewPath);
         }
 
     }

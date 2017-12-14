@@ -89,7 +89,16 @@ class URLBuilderTest extends TestCase{
     public function or_ThreeWords() {
         $actualURL = $this->urlBuilder->getSearchURL($this->threeWords, $this->numbers, $this->period, false);
         $expectedURL = "http://www.salsah.org/api/search/?searchtype=extended&property_id[]=46&property_id[]=1&property_id[]=1&compop[]=EQ&compop[]=EXISTS&compop[]=MATCH&searchval[]=GREGORIAN:1:2017&searchval[]=&searchval[]=Haus%2BKinder%2Bspielen&show_nrows=50&filter_by_restype=65";
-        $this->assertEquals($expectedURL, $actualURL, "hi");
+        $this->assertEquals($expectedURL, $actualURL);
+    }
+
+    /**
+     * @test Case when there is THREE search words and conjunction OR
+     */
+    public function resource_Url() {
+        $actualURL = $this->urlBuilder->getResourceURL("12");
+        $expectedURL = "http://www.salsah.org/api/resources/12";
+        $this->assertEquals($expectedURL, $actualURL);
     }
 
 }

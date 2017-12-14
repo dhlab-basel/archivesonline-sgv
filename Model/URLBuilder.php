@@ -12,6 +12,10 @@ class Model_URLBuilder {
      */
     const SEARCH_EXTENDED = "http://www.salsah.org/api/search/?searchtype=extended";
     /**
+     * @var string URL prefix for resource requests.
+     */
+    const RESOURCE_URL = "http://www.salsah.org/api/resources/";
+    /**
      * @var string Property parameter for the title.
      */
     const PROPERTY_TITLE = "&property_id[]=1";
@@ -52,7 +56,7 @@ class Model_URLBuilder {
      * @param bool $isAND Contains the information of the conjunction. True means "AND" where false means "OR.
      * @return string Contains the URL with all the information needed to start the request.
      */
-    public function getSearchURL( $words, $number, $period, $isAND) {
+    public function getSearchURL($words, $number, $period, $isAND) {
         $url = static::SEARCH_EXTENDED;
         $val_gregorian = static::VALUE . "GREGORIAN:" . $period->getFromYear(). ":". $period->getToYear();
 
@@ -79,5 +83,14 @@ class Model_URLBuilder {
         }
 
         return $url;
+    }
+
+    /**
+     * Generates the url for the resource request.
+     * @param string $id ID of the resource
+     * @return string Returns the url for the resource request
+     */
+    public function getResourceURL($id) {
+        return static::RESOURCE_URL . $id;
     }
 }
