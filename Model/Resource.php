@@ -27,8 +27,18 @@ class Model_Resource {
      * @var string Represents the end date of a period reduced to the precision.
      */
     private $date2_reduced;
+    /**
+     * @var string Represents the raw start date of a period.
+     */
     private $date1_full;
+    /**
+     * @var string Represents the raw end date of a period.
+     */
     private $date2_full;
+    /**
+     * @var string Url to the resource picture
+     */
+    private $picture_url;
 
     /**
      * Converts the parameter $date, which is julian day (!not the same like julian calendar), into the gregorian calendar.
@@ -59,8 +69,9 @@ class Model_Resource {
      * @param string $id
      * @param string $title
      * @param null|\stdClass $dateValues
+     * @param string $picture_url
      */
-    public function __construct($id, $title, $dateValues) {
+    public function __construct($id, $title, $dateValues, $picture_url) {
         $this->id = $id;
         $this->title = $title;
         $this->dateValues = $dateValues;
@@ -76,6 +87,8 @@ class Model_Resource {
             $this->date1_full = "";
             $this->date2_full = "";
         }
+
+        $this->picture_url = $picture_url;
     }
 
     /**
@@ -118,6 +131,14 @@ class Model_Resource {
      */
     public function getDate2Full() {
         return $this->date2_full;
+    }
+
+    /**
+     * Gets url for the resource picture.
+     * @return string
+     */
+    public function getPictureURL() {
+        return $this->picture_url;
     }
 
 }

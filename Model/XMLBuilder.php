@@ -20,11 +20,6 @@ class Model_XMLBuilder {
      */
     const PACKING = "xml";
     /**
-     * @var string Resource url
-     */
-    const RESOURCE_URL = "http://www.salsah.org/api/resources/";
-
-    /**
      * @var int The maximum result
      */
     private $maxResult;
@@ -113,7 +108,8 @@ class Model_XMLBuilder {
 
             $el_score = $xml->createElement("rel:score", 1);
             $el_score->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:rel", "info:srw/extension/2/relevancy-1.0");
-            $el_link = $xml->createElement("ap:link", static::RESOURCE_URL . $value->getID());
+            $el_link = $xml->createElement("ap:link");
+            $el_link->appendChild($xml->createTextNode($value->getPictureURL()));
             $el_link->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
             $el_beginDate = $xml->createElement("ap:beginDateISO", $value->getDate1Full());
             $el_beginDate->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
@@ -123,7 +119,7 @@ class Model_XMLBuilder {
             $el_endDate->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
             $el_endApp = $xml->createElement("ap:endApprox", "0");
             $el_endApp->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
-            $el_digItem = $xml->createElement("ap:hasDigitizedItems", "0");
+            $el_digItem = $xml->createElement("ap:hasDigitizedItems", "1");
             $el_digItem->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
 
             $children = array($el_score, $el_link, $el_beginDate, $el_beginApp, $el_endDate, $el_endApp, $el_digItem);

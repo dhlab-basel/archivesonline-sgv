@@ -37,6 +37,7 @@ class Model_Requester {
             $id = $value->obj_id;
             $title = "NONE";
             $dates = null;
+            $urlResource = "NONE";
 
             if (\property_exists($value, "value")) {
                 $id = $value->obj_id;
@@ -46,7 +47,14 @@ class Model_Requester {
                 }
             };
 
-            $resource = new Model_Resource($id, $title, $dates);
+            if (\property_exists($value, "preview_path")) {
+                $urlResource = $value->preview_path;
+            }
+//            echo "URL    : ".$urlResource . "<br>";
+//            echo "REPLACE: <a href=" . static::generateURLResource($urlResource) .">" ." hier" ."</a><br>";
+            $urlResource = static::generateURLResource($urlResource);
+
+            $resource = new Model_Resource($id, $title, $dates, $urlResource);
             \array_push($resources, $resource);
         }
         return $resources;
@@ -74,4 +82,16 @@ class Model_Requester {
 
         return ($size == 0)? array(): $this->extractResource($subjects);
     }
+
+    private static function generateURLResource($urlResource) {
+        $pattern = "/^http:\/\/www\.salsah\.org\/core\/location\.php/";
+
+        if( \preg_match($pattern, $urlResource)) {
+            return $urlResource;
+        } else {
+            return \str_replace("qtype=thumb", "qtype=full&reduce=2", $urlResource);
+        }
+
+    }
+
 }

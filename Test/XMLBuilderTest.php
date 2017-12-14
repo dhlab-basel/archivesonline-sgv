@@ -5,10 +5,29 @@ include("Model/XMLBuilder.php");
 include("Model/Resource.php");
 
 final class XMLBuilderTest extends TestCase{
+    /**
+     * @var int Maximum numbers of results
+     */
     const NUMBERS = 50;
+    /**
+     * @var float Version number
+     */
     const VERSION = 1.2;
+    /**
+     * @var string Schema
+     */
     const SCHEMA = "isad";
+    /**
+     * @var string Packing
+     */
     const PACKING = "xml";
+    /**
+     * @var string URL of a default picture
+     */
+    const URL_DEFAULT_PICTURE = "http://www.salsah.org/core/location.php?table=resource_type&field=icon&keyfield=id&keyvalue=65";
+    /**
+     * @var \ArchivesOnlineSGV\Model_XMLBuilder
+     */
     protected $xmlBuilder;
 
     protected function setUp() {
@@ -19,7 +38,7 @@ final class XMLBuilderTest extends TestCase{
         $resources = array();
         if ($containsData) {
             $obj = (object) array('dateval1' => '2433008', 'dateval2' => '2433037', 'calendar' => 'GREGORIAN', 'dateprecision1' => 'MONTH' , 'dateprecision2' => 'MONTH');
-            $data = new \ArchivesOnlineSGV\Model_Resource("1", "Einem geschenktem Gaul schaut man immer ins Maul!", $obj);
+            $data = new \ArchivesOnlineSGV\Model_Resource("1", "Einem geschenktem Gaul schaut man immer ins Maul!", $obj, static::URL_DEFAULT_PICTURE);
             \array_push($resources, $data);
         }
         return $resources;
@@ -116,7 +135,7 @@ final class XMLBuilderTest extends TestCase{
         $el_endDate->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
         $el_endApp = $DOMDocument->createElement("ap:endApprox", "0");
         $el_endApp->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
-        $el_digItem = $DOMDocument->createElement("ap:hasDigitizedItems", "0");
+        $el_digItem = $DOMDocument->createElement("ap:hasDigitizedItems", "1");
         $el_digItem->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
 
         $children = array($el_score, $el_link, $el_beginDate, $el_beginApp, $el_endDate, $el_endApp, $el_digItem);
