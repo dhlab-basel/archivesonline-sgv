@@ -22,7 +22,7 @@ class Model_XMLBuilder {
     /**
      * @var string Resource url
      */
-    const RESOURCE_URL = "http://www.salsah.org/api/resources/";
+    const RESOURCE_URL = "http://archiv.sgv-sstp.ch/resource/";
     /**
      * @var int The maximum result
      */
@@ -113,7 +113,7 @@ class Model_XMLBuilder {
             $el_score = $xml->createElement("rel:score", 1);
             $el_score->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:rel", "info:srw/extension/2/relevancy-1.0");
             $el_link = $xml->createElement("ap:link");
-            $el_link->appendChild($xml->createTextNode(static::RESOURCE_URL . $value->getID()));
+            $el_link->appendChild($xml->createTextNode(static::RESOURCE_URL . $value->getNumberID()));
             $el_link->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");
             $el_beginDate = $xml->createElement("ap:beginDateISO", $value->getDate1Full());
             $el_beginDate->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:ap", "http://www.archivportal.ch/srw/extension/");

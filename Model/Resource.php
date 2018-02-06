@@ -92,12 +92,22 @@ class Model_Resource {
     }
 
     /**
-     * Gets the ID of the resource. ID can be used with salsah API to check the details of the resource.
+     * Gets the ID of the resource (example: "450914_-_local"). ID can be used with salsah API to check the details of the resource.
      * The API is : http://www.salsah.org/api/resource/{ID} and you receive a JSON.
      * @return string
      */
     public function getID() {
         return $this->id;
+    }
+
+    /**
+     * Gets only the number ID of the resource (example: "450914"). ID can be used with salsah API to check the details of the resource.
+     * The API is : http://www.salsah.org/api/resource/{ID} and you receive a JSON.
+     * @return string
+     */
+    public function getNumberID() {
+        $id_parts = \explode("_",$this->id);
+        return $id_parts[0];
     }
 
     /**
