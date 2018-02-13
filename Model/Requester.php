@@ -57,7 +57,7 @@ class Model_Requester {
 
             $previewPath = static::generatePictureURL($previewPath);
             $resource = new Model_Resource($id, $title, $dates, $previewPath);
-            \array_push($resources, $resource);
+            $resources[$id] = $resource;
         }
         return $resources;
     }
@@ -86,7 +86,7 @@ class Model_Requester {
     }
 
     /**
-     * Tries to get the title of the resource by doing a resource request in case the first request had given "" for the $title.
+     * Tries to get the title of the resource by doing a resource request in case the first request had given an empty string for the $title.
      * @param number $id
      * @return string Returns the title if it exists
      */

@@ -17,6 +17,10 @@ class Controller_Api {
         $p = isset($_GET["p"]) ? "/" . $_GET["p"] : "";
 
         switch ($p) {
+            /* If you deploy this to the server use {1} instead of {2}
+                {1} = case "";
+                {2} = case "/sgv/";
+            */
             case "/sgv/":
                 $this->sgv();
                 break;
